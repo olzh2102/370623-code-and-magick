@@ -12,8 +12,8 @@ window.cloudOfResutls = function (ctx, x, y, width, height) {
   ctx.lineTo(x + width, y);
   ctx.lineTo(x + width / 2, y + offset);
   ctx.lineTo(x, y);
-  ctx.stroke;
-  ctx.closePath;
+  ctx.stroke();
+  ctx.closePath();
   ctx.fill();
 };
 
