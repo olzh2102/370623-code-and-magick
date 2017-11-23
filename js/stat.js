@@ -51,22 +51,17 @@ window.renderStatistics = function (ctx, names, times) {
   var step = histogramHeight / (getMaxElementOfArray(times) - 0);
 
   var randomizeBlueColor = function () {
-    return 'rgba(0, 0, 255, ' + Math.random() + ')';
+    return 'rgba(0, 0, 255, ' + +Math.random().toFixed(1) || 0.1 + ')';
   };
 
   for (var i = 0; i < times.length; i++) {
     var name = names[i];
     var height = step * (times[i] - 0);
 
+    ctx.fillStyle = (name === 'Вы') ? 'rgba(255, 0, 0, 1)' : randomizeBlueColor();
+
     ctx.fillText(parseInt(times[i], 10), initialX + (histogramWidth + indent) * i, 90 + histogramHeight - height);
     ctx.fillText(name, initialX + (histogramWidth + indent) * i, 100 + histogramHeight + 20);
     ctx.fillRect(initialX + (histogramWidth + indent) * i, 100 + histogramHeight - height, histogramWidth, height);
-    ctx.fillStyle = '#000';
-
-    if (name === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    } else {
-      ctx.fillStyle = randomizeBlueColor();
-    }
   }
 };
