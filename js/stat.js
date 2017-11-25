@@ -51,7 +51,7 @@ window.renderStatistics = function (ctx, names, times) {
   var step = histogramHeight / (getMaxElementOfArray(times) - 0);
 
   var randomizeBlueColor = function () {
-    return 'rgba(0, 0, 255, ' + +Math.random().toFixed(1) || 0.1 + ')';
+    return 'rgba(0, 0, 255, ' + (+Math.random().toFixed(1) || 0.1) + ')';
   };
 
   for (var i = 0; i < times.length; i++) {
