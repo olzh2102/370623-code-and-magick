@@ -59,7 +59,7 @@ for (var i = 0; i < 4; i++) {
 
 // --- Клонирование шаблона волшебника и заполнение данными из массива ---
 var renderOneWizard = function (wizard) {
-  var wizardElement = similarWizardTemplate.clodeNode(true);
+  var wizardElement = similarWizardTemplate.cloneNode(true);
 
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
