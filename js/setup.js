@@ -1,5 +1,8 @@
 'use strict';
 
+var ESC_KEY = 27;
+var ENTER_KEY = 13;
+
 var WIZARD_NAME = [
   'Иван',
   'Хуан Себастьян',
@@ -77,8 +80,64 @@ for (var j = 0; j < wizards.length; j++) {
 // --- Заполнение данными из фрагмента в скрытое окно настроек со списком волшебников ---
 var renderWizardList = function () {
   setupSimilarList.appendChild(fragment);
-  setupWindow.classList.remove('hidden');
   similarWindow.classList.remove('hidden');
 };
 
 renderWizardList();
+
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = document.querySelector('.setup-close');
+var setupSubmit = document.querySelector('.setup-submit');
+var setupUserName = document.querySelector('.setup-user-name');
+
+var openSetupWindow = function () {
+  setupWindow.classList.remove('hidden');
+  document.addEventListener('keydown', setupEscCloser);
+};
+
+var closeSetupWindow = function () {
+  setupWindow.classList.add('hidden');
+  document.addEventListener('keydown', setupEscCloser);
+};
+
+var setupEscCloser = function (event) {
+  if (event.keyCode === ESC_KEY) {
+    closeSetupWindow();
+  }
+};
+
+setupOpen.addEventListener('click', function () {
+  openSetupWindow();
+});
+setupOpen.addEventListener('keydown', function (event) {
+  if (event.keyCode === ENTER_KEY) {
+    openSetupWindow();
+  }
+});
+
+setupClose.addEventListener('click', function () {
+  closeSetupWindow();
+});
+setupClose.addEventListener('keydown', function (event) {
+  if (event.keyCode === ENTER_KEY) {
+    closeSetupWindow();
+  }
+});
+
+setupUserName.addEventListener('keydown', function (event) {
+  if (event.keyCode === ENTER_KEY) {
+    event.preventDefault();
+    setupClose.focus();
+  }
+});
+
+setupSubmit.addEventListener('click', function (event) {
+  event.preventDefault();
+  closeSetupWindow();
+});
+setupSubmit.addEventListener('keydown', function (event) {
+  if (event.keyCode === ENTER_KEY) {
+    event.preventDefault();
+    closeSetupWindow();
+  }
+});
