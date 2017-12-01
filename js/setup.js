@@ -38,6 +38,13 @@ var WIZARD_EYES_COLOR = [
   'yellow',
   'green'
 ];
+var FIREBALL_COLOR = [
+  '#ee4830',
+  '#30a8ee',
+  '#5ce6c0',
+  '#e848d5',
+  '#e6e848',
+];
 
 var wizards = [];
 
@@ -85,6 +92,7 @@ var renderWizardList = function () {
 
 renderWizardList();
 
+// --- Открытие/закрытие окошки настройки ---
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = document.querySelector('.setup-close');
 var setupSubmit = document.querySelector('.setup-submit');
@@ -101,7 +109,7 @@ var closeSetupWindow = function () {
 };
 
 var setupEscCloser = function (event) {
-  if (event.keyCode === ESC_KEY) {
+  if (event.keyCode === ESC_KEY && setupUserName.validity.valid) {
     closeSetupWindow();
   }
 };
@@ -115,6 +123,50 @@ setupOpen.addEventListener('keydown', function (event) {
   }
 });
 
+// --- Проверка валидаций при нажатий кнопки сохранить ---
+setupSubmit.addEventListener('click', function () {
+  if (setupUserName.validity.valid) {
+    closeSetupWindow();
+  }
+});
+setupSubmit.addEventListener('keydown', function (event) {
+  if (event.keyCode === ENTER_KEY && setupUserName.validity.valid) {
+    closeSetupWindow();
+  }
+});
+
+setupUserName.addEventListener('keydown', function (event) {
+  if (event.keyCode === ENTER_KEY) {
+    event.stopPropagation();
+  }
+}, true);
+
+setupUserName.addEventListener('invalid', function () {
+  if (!setupUserName.validity.valid) {
+    if (setupUserName.validity.tooShort) {
+      setupUserName.setCustomValidity('имя персонажа не может содержать менее 2 символов');
+    }
+    if (setupUserName.validity.tooLong) {
+      setupUserName.setCustomValidity('максимальная длина имени персонажа — 25 символов');
+    }
+    if (setupUserName.validity.valueMissing) {
+      setupUserName.setCustomValidity('это поле должно быть заполненным');
+    }
+  } else {
+    setupUserName.setCustomValiditiy('');
+  }
+});
+
+setupUserName.addEventListener('input', function (event) {
+  var target = event.target;
+
+  if (target.value.length < 2) {
+    target.setCustomValidity('имя персонажа не может содержать менее 2 символов');
+  } else {
+    target.setCustomValidity('');
+  }
+});
+
 setupClose.addEventListener('click', function () {
   closeSetupWindow();
 });
@@ -124,20 +176,24 @@ setupClose.addEventListener('keydown', function (event) {
   }
 });
 
-setupUserName.addEventListener('keydown', function (event) {
-  if (event.keyCode === ENTER_KEY) {
-    event.preventDefault();
-    setupClose.focus();
-  }
-});
+// --- Изменения цвета глаз, мантий и файрбола ---
+var wizardSetup = setupWindow.querySelector('.setup-wizard');
+var wizardCoatSetup = wizardSetup.querySelector('.wizard-coat');
+var wizardEyesSetup = wizardSetup.querySelector('.wizard-eyes');
+var fireballSetup = setupWindow.querySelector('.setup-fireball-wrap');
 
-setupSubmit.addEventListener('click', function (event) {
-  event.preventDefault();
-  closeSetupWindow();
-});
-setupSubmit.addEventListener('keydown', function (event) {
-  if (event.keyCode === ENTER_KEY) {
-    event.preventDefault();
-    closeSetupWindow();
+var colorChanger = function (event) {
+  var currentStyle = event.currentTarget.style;
+
+  if (event.currentTarget === wizardCoatSetup) {
+    currentStyle.fill = WIZARD_COAT_COLOR[generateRandomIndex(0, WIZARD_COAT_COLOR.length - 1)];
+  } else if (event.currentTarget === wizardEyesSetup) {
+    currentStyle.fill = WIZARD_EYES_COLOR[generateRandomIndex(0, WIZARD_EYES_COLOR.length - 1)];
+  } else if (event.currentTarget === fireballSetup) {
+    currentStyle.backgroundColor = FIREBALL_COLOR[generateRandomIndex(0, FIREBALL_COLOR.length - 1)];
   }
-});
+};
+
+wizardCoatSetup.addEventListener('click', colorChanger);
+wizardEyesSetup.addEventListener('click', colorChanger);
+fireballSetup.addEventListener('click', colorChanger);
