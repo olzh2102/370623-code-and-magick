@@ -94,9 +94,9 @@ renderWizardList();
 
 // --- Открытие/закрытие окошки настройки ---
 var setupOpen = document.querySelector('.setup-open');
-var setupClose = document.querySelector('.setup-close');
-var setupSubmit = document.querySelector('.setup-submit');
-var setupUserName = document.querySelector('.setup-user-name');
+var setupClose = setupWindow.querySelector('.setup-close');
+var setupSubmit = setupWindow.querySelector('.setup-submit');
+var setupUserName = setupWindow.querySelector('.setup-user-name');
 
 var openSetupWindow = function () {
   setupWindow.classList.remove('hidden');
@@ -136,9 +136,7 @@ setupSubmit.addEventListener('keydown', function (event) {
 });
 
 setupUserName.addEventListener('keydown', function (event) {
-  if (event.keyCode === ENTER_KEY) {
-    event.stopPropagation();
-  }
+  event.stopPropagation();
 }, true);
 
 setupUserName.addEventListener('invalid', function () {
