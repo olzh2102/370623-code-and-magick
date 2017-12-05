@@ -50,17 +50,9 @@
   });
 
   setupUserName.addEventListener('invalid', function () {
-    if (!window.validation.isValid(setupUserName)) {
-      if (setupUserName.validity.tooShort) {
-        setupUserName.setCustomValidity('имя персонажа не может содержать менее 2 символов');
-      }
-      if (setupUserName.validity.tooLong) {
-        setupUserName.setCustomValidity('максимальная длина имени персонажа — 25 символов');
-      }
-      if (setupUserName.validity.valueMissing) {
-        setupUserName.setCustomValidity('это поле должно быть заполненным');
-      }
-    } else {
+    if (window.validation.isValid(setupUserName, function (customValidityText) {
+      setupUserName.setCustomValidity(customValidityText);
+    })) {
       setupUserName.setCustomValiditiy('');
     }
   });
@@ -68,9 +60,9 @@
   setupUserName.addEventListener('input', function (event) {
     var target = event.target;
 
-    if (target.value.length < 2) {
-      target.setCustomValidity('имя персонажа не может содержать менее 2 символов');
-    } else {
+    if (window.validation.isValid(target, function (customValidityText) {
+      target.setCustomValidity(customValidityText);
+    })) {
       target.setCustomValidity('');
     }
   });
