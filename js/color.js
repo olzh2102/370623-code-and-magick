@@ -28,20 +28,26 @@
     return arr[window.generic.generateRandomIndex(0, arr.length)];
   };
 
-  window.color = function (elem, changeColor) {
-    elem.addEventListener('click', function () {
-      var arr;
-      switch (elem) {
-        case 'wizardCoat': arr = WIZARD_COAT_COLOR;
-          break;
-        case 'wizardEyes': arr = WIZARD_EYES_COLOR;
-          break;
-        case 'fireball': arr = FIREBALL_COLOR;
-          break;
-      }
+  var gotClass = function (elem, cls) {
+    return elem.classList.contains(cls);
+  };
 
-      var color = generateRandomColor(arr);
+  window.color = function (elem, changeColor) {
+    var arr = [];
+
+    if (gotClass(elem, 'wizard-coat')) {
+      arr = WIZARD_COAT_COLOR;
+    } else if (gotClass(elem, 'wizard-eyes')) {
+      arr = WIZARD_EYES_COLOR;
+    } else if (gotClass(elem, 'setup-fireball-wrap')) {
+      arr = FIREBALL_COLOR;
+    }
+
+    var color = generateRandomColor(arr);
+
+    if (changeColor !== null) {
       changeColor(color);
-    });
+    }
+    return color;
   };
 })();

@@ -34,13 +34,9 @@
   // --- Создание массива волшебников ---
   for (var i = 0; i < 4; i++) {
     var wizardObject = {
-      name: WIZARD_NAME[window.generic.generateRandomIndex(0, WIZARD_NAME.length - 1)] + '' + WIZARD_SURNAME[window.generic.generateRandomIndex(0, WIZARD_SURNAME.length - 1)],
-      coatColor: window.color(wizardCoatSetup, function (color) {
-        wizardCoatSetup.style.fill = color;
-      }),
-      eyesColor: window.color(wizardEyesSetup, function (color) {
-        wizardEyesSetup.style.fill = color;
-      }),
+      name: WIZARD_NAME[window.generic.generateRandomIndex(0, WIZARD_NAME.length - 1)] + ' ' + WIZARD_SURNAME[window.generic.generateRandomIndex(0, WIZARD_SURNAME.length - 1)],
+      coatColor: window.color(wizardCoatSetup, null),
+      eyesColor: window.color(wizardEyesSetup, null)
     };
     wizards.push(wizardObject);
   }
@@ -76,13 +72,19 @@
   renderWizardList();
 
   // --- Меняем цвета волшебников ---
-  window.color(wizardCoatSetup, function (color) {
-    wizardCoatSetup.style.fill = color;
+  wizardCoatSetup.addEventListener('click', function () {
+    window.color(wizardCoatSetup, function (color) {
+      wizardCoatSetup.style.fill = color;
+    });
   });
-  window.color(wizardEyesSetup, function (color) {
-    wizardEyesSetup.style.fill = color;
+  wizardEyesSetup.addEventListener('click', function () {
+    window.color(wizardEyesSetup, function (color) {
+      wizardEyesSetup.style.fill = color;
+    });
   });
-  window.color(fireballSetup, function (color) {
-    fireballSetup.style.background = color;
+  fireballSetup.addEventListener('click', function () {
+    window.color(fireballSetup, function (color) {
+      fireballSetup.style.background = color;
+    });
   });
 })();
