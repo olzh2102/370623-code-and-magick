@@ -15,6 +15,8 @@
   var closeSetupWindow = function () {
     setupWindow.classList.add('hidden');
     document.addEventListener('keydown', setupEscCloser);
+    setupWindow.style.top = '';
+    setupWindow.style.left = '';
   };
   var setupEscCloser = function (event) {
     window.generic.escEvent(event, closeSetupWindow);
@@ -65,5 +67,50 @@
     })) {
       target.setCustomValidity('');
     }
+  });
+
+  var userAvatar = document.querySelector('input[name="avatar"]');
+  var hideUserAvatar = function (event) {
+    event.preventDefault();
+    userAvatar.style.display = 'none';
+  };
+
+  userAvatar.addEventListener('mouseover', hideUserAvatar);
+  var setupDialogHandle = document.querySelector('.setup-user-pic');
+  setupDialogHandle.addEventListener('mousedown', function (downEvent) {
+    downEvent.preventDefault();
+
+    var startingCoords = {
+      x: downEvent.clientX,
+      y: downEvent.clientY
+    };
+
+    var mouseMover = function (moveEvt) {
+      moveEvt.preventDefault();
+      userAvatar.style.display = '';
+
+      var shift = {
+        x: startingCoords.x - moveEvt.clientX,
+        y: startingCoords.y - moveEvt.clientY
+      };
+
+      startingCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      setupWindow.style.top = (setupWindow.offsetTop - shift.y) + 'px';
+      setupWindow.style.left = (setupWindow.offsetLeft - shift.x) + 'px';
+    };
+
+    var mouseUper = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', mouseMover);
+      document.removeEventListener('moveup', mouseUper);
+    };
+
+    document.addEventListener('mousemove', mouseMover);
+    document.addEventListener('mouseup', mouseUper);
   });
 })();

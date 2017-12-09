@@ -87,4 +87,36 @@
       fireballSetup.style.background = color;
     });
   });
+
+  // Find artifacts elements
+  var shopElement = setupWindow.querySelector('.setup-artifacts-shop');
+  var draggedItem = null;
+
+  shopElement.addEventListener('dragstart', function (event) {
+    if (event.target.tagName.toLowerCase() === 'img') {
+      draggedItem = event.target;
+      event.dataTransfer.setData('text/plain', event.target.alt);
+    }
+  });
+
+  // Find element where to drop item
+  var artifactsElement = document.querySelector('.setup-artifacts');
+  artifactsElement.addEventListener('dragover', function (event) {
+    event.preventDefault();
+    return false;
+  });
+
+  artifactsElement.addEventListener('drop', function (event) {
+    event.target.style.outline = '';
+    event.target.appendChild(draggedItem);
+    event.preventDefault();
+  });
+
+  shopElement.addEventListener('mousemove', function (event) {
+    event.preventDefault();
+  });
+
+  shopElement.addEventListener('mouseup', function (event) {
+    event.preventDefault();
+  });
 })();
