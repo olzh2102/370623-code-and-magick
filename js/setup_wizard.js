@@ -92,8 +92,28 @@
   var shopElement = setupWindow.querySelector('.setup-artifacts-shop');
   var draggedItem = null;
 
+
+  var showIfGotChild = function () {
+    for (var index = 0; index < artifactsDropCells.length; index++) {
+      var cell = artifactsDropCells[index];
+
+      if (cell.children.length === 0) {
+        cell.style.outline = '2px dashed red';
+      } else {
+        cell.style.outline = '';
+      }
+    }
+  };
+
+  var hideHighlight = function () {
+    for (var index = 0; index < artifactsDropCells.length; index++) {
+      artifactsDropCells[index].style.outline = '';
+    }
+  };
+
   shopElement.addEventListener('dragstart', function (event) {
     if (event.target.tagName.toLowerCase() === 'img') {
+      showIfGotChild();
       draggedItem = event.target;
       event.dataTransfer.setData('text/plain', event.target.alt);
     }
@@ -106,17 +126,22 @@
     return false;
   });
 
+  var artifactsDropCells = artifactsElement.querySelector('.setup-artifacts-cell');
+
   artifactsElement.addEventListener('drop', function (event) {
-    event.target.style.outline = '';
+    event.target.style.background = '';
+    hideHighlight();
     event.target.appendChild(draggedItem);
     event.preventDefault();
   });
 
-  shopElement.addEventListener('mousemove', function (event) {
+  artifactsElement.addEventListener('dragenter', function (event) {
+    event.target.style.background = 'yellow';
     event.preventDefault();
   });
 
-  shopElement.addEventListener('mouseup', function (event) {
+  artifactsElement.addEventListener('dragleave', function (event) {
+    event.target.style.background = '';
     event.preventDefault();
   });
 })();
